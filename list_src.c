@@ -29,7 +29,10 @@ void delete_list(DbLinkedList **list) {
 }
 
 
-void append(Node *node, DbLinkedList *list) {
+void append(DATA_NAME *value, DbLinkedList *list) {
+    Node *node = (Node *) malloc(sizeof(Node));
+    node->value = value;
+
     node->next = NULL;
     node->prev = list->tail;
 
@@ -44,21 +47,16 @@ void append(Node *node, DbLinkedList *list) {
 
 
 Node *get_node(DbLinkedList *list, size_t index) {
-    if (!list || index >= list->size) {
-        return NULL;
+    Node *tmp = list->head;
+
+    while (tmp) {
+        if (CUR_DATA->id == index) {
+            return tmp;
+        }
+        tmp = tmp->next;
     }
 
-    size_t midpoint = list->size / 2;
-    bool i_bigger_mid = index >= midpoint;
-    Node *current_node = (i_bigger_mid) ? list->tail : list->head;
-    size_t i = (i_bigger_mid) ? (list->size - 1) : 0;
-
-    while (current_node && ((i_bigger_mid && i > index) || (index < midpoint && i < index))) {
-        current_node = (i_bigger_mid) ? current_node->prev : current_node->next;
-        i = (i_bigger_mid) ? (i - 1) : (i + 1);
-    }
-
-    return current_node;
+    return NULL;
 }
 
 
@@ -67,7 +65,6 @@ DATA_NAME *del(DbLinkedList *list, size_t index) {
     if (!node) {
         return NULL;
     }
-
 
     DATA_NAME *value = (DATA_NAME *) malloc(sizeof(DATA_NAME));
     memcpy(value, node->value, sizeof(DATA_NAME));
@@ -90,6 +87,3 @@ DATA_NAME *del(DbLinkedList *list, size_t index) {
     list->size--;
     return value;
 }
-
-
-

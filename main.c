@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <limits.h>
+
+#include "ui_funcs.h"
 
 int main() {
-    printf("Hello, World!\n");
+    run_ui();
+
     return 0;
 }
