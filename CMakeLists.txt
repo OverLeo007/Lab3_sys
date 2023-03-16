@@ -3,4 +3,4 @@ project(Lab3 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Lab3 main.c list_src.c list_src.h)
+add_executable(Lab3 main.c list_src.c list_src.h country_src.h country_src.c)

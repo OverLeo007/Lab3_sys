@@ -19,8 +19,8 @@ void delete_list(DbLinkedList **list) {
     Node *next = NULL;
     while (tmp) {
         next = tmp->next;
-        free(CUR_DATA.continent);
-        free(CUR_DATA.name);
+        free(CUR_DATA->continent);
+        free(CUR_DATA->name);
         free(tmp);
         tmp = next;
     }
@@ -68,6 +68,28 @@ DATA_NAME *del(DbLinkedList *list, size_t index) {
         return NULL;
     }
 
-    //Node *popped_node =
+
+    DATA_NAME *value = (DATA_NAME *) malloc(sizeof(DATA_NAME));
+    memcpy(value, node->value, sizeof(DATA_NAME));
+
+    if (node->prev) {
+        node->prev->next = node->next;
+    } else {
+        list->head = node->next;
+    }
+
+    if (node->next) {
+        node->next->prev = node->prev;
+    } else {
+        list->tail = node->prev;
+    }
+
+    free(node->value);
+    free(node);
+
+    list->size--;
+    return value;
 }
+
+
 
