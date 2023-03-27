@@ -24,7 +24,10 @@ void run_ui() {
                 country_del_handler(list);
                 break;
             case PRINT_LIST:
-
+                list_print_handler(list);
+                break;
+            case EDIT_COUNTRY:
+                edit_country_handler(list);
                 break;
             case EXIT:
                 delete_list(&list);
@@ -45,7 +48,16 @@ void print_menu() {
     puts("1. Добавить страну");
     puts("2. Удалить страну");
     puts("3. Вывести список стран");
-    puts("4. Выйти");
+    puts("4. Редактировать стрнау");
+    puts("5. Выйти");
+}
+
+void print_edit_menu() {
+    puts("1. Изменить континент");
+    puts("2. Изменить название страны");
+    puts("3. Изменить значение ВВП");
+    puts("4. Изменить значение населения");
+    puts("5. Выйти");
 }
 
 
@@ -126,4 +138,76 @@ void list_print_handler(DbLinkedList *list) {
         puts("Список пуст!");
     }
     print_list(list);
+}
+
+void edit_country_handler(DbLinkedList *list) {
+    puts("Введите индекс изменяемой страны");
+    long index = input_long();
+    if (index == LONG_MIN) {
+        puts("Некорректный ввод");
+        return;
+    }
+    Node *node = get_node(list, index);
+    if (!node) {
+        puts("Некорректный индекс");
+        return;
+    }
+    int menu_variant;
+    do {
+        print_edit_menu();
+        menu_variant = (int) input_long();
+
+        switch (menu_variant) {
+            case EDIT_CONTINENT:
+                puts("Введите новое название континента:");
+                char *new_cont = input_string();
+                if (new_cont[0] == '\0'){
+                    puts("Некорректный ввод!");
+                    break;
+                }
+                node->value->continent = new_cont;
+                break;
+
+            case EDIT_NAME:
+                puts("Введите новое название страны:");
+                char *new_name = input_string();
+                if (new_name[0] == '\0'){
+                    puts("Некорректный ввод!");
+                    break;
+                }
+                node->value->name = new_name;
+                break;
+
+            case EDIT_GDP:
+                puts("Введите новое значение ВВП:");
+                long new_gdp = input_long();
+                if (new_gdp == LONG_MIN){
+                    puts("Некорректный ввод!");
+                    break;
+                }
+                node->value->GDP = new_gdp;
+                break;
+
+            case EDIT_POPULATION:
+                puts("Введите новое значение населения:");
+                long new_pop = input_long();
+                if (new_pop == LONG_MIN){
+                    puts("Некорректный ввод!");
+                    break;
+                }
+                node->value->population = new_pop;
+                break;
+
+            case EXIT:
+                puts("Редактирование завершено");
+                break;
+
+            default:
+                puts("Такого варианта в меню нет!");
+                break;
+        }
+
+    } while (menu_variant != EXIT_EDIT);
+
+
 }

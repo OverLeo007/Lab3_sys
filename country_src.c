@@ -39,5 +39,4 @@ void print_list(DbLinkedList *list) {
         print_country(CUR_DATA);
         tmp = tmp->next;
     }
-
 }
